@@ -1,0 +1,45 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.page-title {
+  padding: 20px;
+}
+
+.table-container {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.charts-section {
+  justify-content: space-between;
+}
+
+.charts-container {
+  width: calc(50% - 10px);
+  height: 500px;
+  margin-top: 20px;
+  box-sizing: border-box;
+  /* move to mixin */
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.data-grid-actions {
+  padding: 20px;
+  justify-content: flex-end;
+}
