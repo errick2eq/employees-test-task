@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Some cool company SNA UI New Hire Test
+
+to see deployed version, please open https://employees-test-task.vercel.app/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
