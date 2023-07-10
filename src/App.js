@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import './App.css';
 import mockData from './mocks/new_hire.json'
-import { Button, Dialog, DialogContent, DialogTitle, MenuItem, Modal, Select, TextField } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Modal, Select, TextField } from '@mui/material';
 
 import { getChartDataGender, getChartDataJobTitles } from './helpers';
 import JobTitleChart from './components/PieChart';
@@ -12,6 +12,7 @@ import GenderChart from './components/BarChart';
 function App() {
   const [rows, setRows] = useState(mockData.map((el, index) => ({ id: index + 1, ...el })))
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false)
+  const [form, setForm] = useState(false)
 
   const dataJobTitles = getChartDataJobTitles(rows);
   const dataGender = getChartDataGender(rows);
@@ -25,7 +26,18 @@ function App() {
   ];
 
   const handleSaveForm = () => {
-    setAddUserDialogOpen(true)
+    setRows([
+      ...rows,
+      {
+        id: rows.length + 1,
+        name: form.name,
+        jobTitle: form.jobTitle,
+        tenure: form.tenure,
+        gender: form.gender,
+      }
+    ]
+    );
+    setAddUserDialogOpen(false)
   }
 
   return (
@@ -58,27 +70,50 @@ function App() {
           </DialogTitle>
           <DialogContent>
             <div className='column'>
-              <TextField sx={{ marginTop: '20px' }} label="First Name" />
-              <TextField label="Second Name" />
-              <Select
-                // value={age}
-                label="Job Title"
-              // onChange={handleChangeJobTitle}
-              >
-                {jobTitleOptions.map(el =>
-                  <MenuItem key={el} value={el}>{el}</MenuItem>
-                )}
-              </Select>
-              <Select
-                // value={age}
-                label="Gender"
-              // onChange={handleChangeJobTitle}
-              >
-                <MenuItem value={"Male"}>Male</MenuItem>
-                <MenuItem value={"Female"}>Female</MenuItem>
-              </Select>
+              <TextField
+                sx={{ marginTop: '20px' }}
+                label="Name"
+                value={form?.name || ''}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+              <TextField
+                sx={{ marginTop: '20px' }}
+                label="Tenure"
+                value={form?.tenure || ''}
+                type={'number'}
+                onChange={(e) => setForm({ ...form, tenure: e.target.value })}
+              />
 
-              <div className='row '>
+
+
+              <FormControl sx={{ marginTop: '20px' }} fullWidth>
+                <InputLabel id="job-title-select-label">Job Title</InputLabel>
+                <Select
+                  labelId="job-title-select-label"
+                  label="Job Title"
+                  value={form?.jobTitle || ''}
+                  onChange={(e) => setForm({ ...form, jobTitle: e.target.value })}
+                >
+                  {jobTitleOptions.map(el =>
+                    <MenuItem key={el} value={el}>{el}</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+
+              <FormControl sx={{ marginTop: '20px' }} fullWidth>
+                <InputLabel id="gender-select-label">Gender</InputLabel>
+                <Select
+                  labelId='gender-select-label'
+                  label="Gender"
+                  value={form?.gender || ''}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                >
+                  <MenuItem value={"Male"}>Male</MenuItem>
+                  <MenuItem value={"Female"}>Female</MenuItem>
+                </Select>
+              </FormControl>
+
+              <div className='row add-user-actions'>
                 <Button onClick={() => setAddUserDialogOpen(false)} variant={'outlined'}>Cancel</Button>
                 <Button onClick={handleSaveForm} variant={'contained'}>Save</Button>
               </div>
